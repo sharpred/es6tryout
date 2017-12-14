@@ -1,0 +1,31 @@
+//http://www.appcelerator.com/blog/2017/08/secret-way-to-add-new-features-to-titanium-mobile/
+
+var sourceMapper = require('./sourceMapper');
+var paths = require('global-paths');
+var projectDirectory;
+var logger;
+
+function resolver(moduleName) {
+    return require(require('resolve').sync(moduleName, {
+        basedir: projectDirectory,
+        paths:   paths(),
+    }));
+}
+
+task('pre:load', (event, alloyLogger) => {
+    logger = alloyLogger;
+    projectDirectory = event.dir.project;
+
+    sourceMapper.OPTIONS_OUTPUT.presets = sourceMapper.OPTIONS_OUTPUT.presets || [];
+    sourceMapper.OPTIONS_OUTPUT.presets.push(resolver('babel-preset-env'));
+    sourceMapper.OPTIONS_OUTPUT.presets.push({
+        plugins: [
+            [ resolver('babel-plugin-titanium-controller-args') ],
+        ],
+    });
+
+});
+
+task("post:compile",function(event,logger){
+    logger.info('***** Paul Ryan 14/12: compile finished! remember to check periodically if the babel alloy stuff has been fixed');
+});

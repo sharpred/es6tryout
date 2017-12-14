@@ -1,0 +1,7 @@
+<Alloy>
+	<Window class="container">
+        <View id="middle" layout="vertical" height="Ti.UI.SIZE">
+		    <Label id="label" onClick="doClick">Hello, World</Label>
+        </View>
+	</Window>
+</Alloy>

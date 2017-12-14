@@ -1,0 +1,3 @@
+<Alloy>
+    <Label top="5" id="label" text="$.args.wibble" />
+</Alloy>
